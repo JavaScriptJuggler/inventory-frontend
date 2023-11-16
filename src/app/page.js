@@ -1,9 +1,12 @@
 "use client";
+import Cookies from 'js-cookie';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 export default function Signin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState();
+  const router = useRouter();
   const login = (e) => {
     e.preventDefault();
     fetch(process.env.NEXT_PUBLIC_API_LINK + 'login', {
@@ -13,8 +16,11 @@ export default function Signin() {
       },
       body: JSON.stringify({ email: email, password: password })
     })
-      .then(response => {
-        console.log(response.json());
+      .then(async response => {
+        let mainData = await response.json();
+        Cookies.set('token', mainData.token, { expires: 10 });
+        Cookies.set('user_data', mainData.data, { expires: 10 });
+        router.push('/dashboard');
       })
       .catch(error => console.log(error));
   }
