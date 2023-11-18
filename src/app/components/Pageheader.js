@@ -1,6 +1,25 @@
-import React from 'react';
+'use client';
+import { usePathname } from 'next/navigation';
+import React, { useState } from 'react';
 
 export default function Pageheader() {
+    const pathName = usePathname();
+    const [pageDescription, setPageDescription] = useState('');
+    const [pageHeaderName, setpageHeaderName] = useState('');
+    const getPageName = () => {
+        let pageHeaderName = '';
+        if (pathName == '/dashboard') {
+            setpageHeaderName('Dashboard');
+            setPageDescription('Overview');
+        }
+        if (pathName == '/product-management') {
+            setpageHeaderName('Product Management');
+            setPageDescription('Add new products efficiently. Enter details, upload image, and submit.')
+        }
+    }
+    useState(() => {
+        getPageName();
+    }, [])
     return (
         <>
             <div className="page-header d-print-none">
@@ -8,13 +27,13 @@ export default function Pageheader() {
                     <div className="row g-2 align-items-center">
                         <div className="col">
                             <div className="page-pretitle">
-                                Overview
+                                {pageDescription}
                             </div>
                             <h2 className="page-title">
-                                Dashboard
+                                {pageHeaderName}
                             </h2>
                         </div>
-                        <div className="col-auto ms-auto d-print-none">
+                        {/*  <div className="col-auto ms-auto d-print-none">
                             <div className="btn-list">
                                 <span className="d-none d-sm-inline">
                                     <a href="#" className="btn">
@@ -29,7 +48,7 @@ export default function Pageheader() {
                                     <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
                                 </a>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
